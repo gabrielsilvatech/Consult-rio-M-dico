@@ -62,6 +62,34 @@ class MedicoRepositoryTest {
 
     }
 
+    @Test
+    @DisplayName("Deveria devolver true quando o id passado for um médico ativo")
+    void escolherMedicoAtivoPorIdCenario1() {
+        //given ou arrange
+        var proximaSegundaAs10 = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atTime(10,0);
+        var medico = cadastrarMedico("Medico Test", "medico.test@voll.med", "000000", Especialidade.CARDIOLOGIA);
+
+        //when ou act
+        var medicoAtivo = medicoRepository.findAtivoById(medico.getId());
+
+        //then ou assert
+        assertThat(medicoAtivo).isTrue();
+    }
+
+    @Test
+    @DisplayName("Deveria devolver false quando o id passado for um médico inativo")
+    void escolherMedicoAtivoPorIdCenario2() {
+        //given ou arrange
+        var proximaSegundaAs10 = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY)).atTime(10,0);
+        var medico = cadastrarMedico("Medico Test", "medico.test@voll.med", "000000", Especialidade.CARDIOLOGIA);
+        medico.excluir();
+        //when ou act
+        var medicoAtivo = medicoRepository.findAtivoById(medico.getId());
+
+        //then ou assert
+        assertThat(medicoAtivo).isFalse();
+    }
+
     private void cadastrarConsulta(Medico medico, Paciente paciente, LocalDateTime data) {
         em.persist(new Consulta(null, medico, paciente, data, null));
     }
