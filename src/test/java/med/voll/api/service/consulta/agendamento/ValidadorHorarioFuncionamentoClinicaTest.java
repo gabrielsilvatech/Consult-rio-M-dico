@@ -29,7 +29,7 @@ class ValidadorHorarioFuncionamentoClinicaTest {
     }
 
     @Test
-    @DisplayName("Deve devovler uma Validacao Esception a data seja um domingo")
+    @DisplayName("Deve lançar uma exception, pois a data é um domingo")
     void validarCenario2() {
         var data = LocalDateTime.of(2023,06,25,17,00); // dia 25 de junho de 2023 é um domingo
         var dadosConsulta = new DadosAgendamentoConsulta(1l,1l, data, Especialidade.CARDIOLOGIA);
@@ -38,27 +38,27 @@ class ValidadorHorarioFuncionamentoClinicaTest {
     }
 
     @Test
-    @DisplayName("Deve devovler uma Validacao Esception caso o horário seja as 18:00 ou superior")
+    @DisplayName("Deve lançar uma exception, pois o horário é igual as 18:00")
     void validarCenario3() {
-        var data = LocalDateTime.of(2023,06,23,18,00); // dia 25 de junho de 2023 é um domingo
+        var data = LocalDateTime.of(2023,06,23,18,00);
         var dadosConsulta = new DadosAgendamentoConsulta(1l,1l, data, Especialidade.CARDIOLOGIA);
 
         assertThrows(ValidacaoException.class, () -> validadorHorarioFuncionamentoClinica.validar(dadosConsulta));
     }
 
     @Test
-    @DisplayName("Deve devovler uma Validacao Esception caso o horário seja inferior a 07:00")
+    @DisplayName("Deve lançar uma exception, pois o horário é inferior ás 07:00")
     void validarCenario4() {
-        var data = LocalDateTime.of(2023,06,23,06,59); // dia 25 de junho de 2023 é um domingo
+        var data = LocalDateTime.of(2023,06,23,06,59);
         var dadosConsulta = new DadosAgendamentoConsulta(1l,1l, data, Especialidade.CARDIOLOGIA);
 
         assertThrows(ValidacaoException.class, () -> validadorHorarioFuncionamentoClinica.validar(dadosConsulta));
     }
 
     @Test
-    @DisplayName("Deve ser válido caso o horário seja igual as 07:00")
+    @DisplayName("Deve ser válido, pois o horário é igual ás 07:00")
     void validarCenario5() {
-        var data = LocalDateTime.of(2023,06,23,07,00); // dia 25 de junho de 2023 é um domingo
+        var data = LocalDateTime.of(2023,06,23,07,00);
         var dadosConsulta = new DadosAgendamentoConsulta(1l,1l, data, Especialidade.CARDIOLOGIA);
 
         validadorHorarioFuncionamentoClinica.validar(dadosConsulta);

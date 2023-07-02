@@ -19,21 +19,21 @@ class ValidadorHorarioAntecedenciaTest {
     private ValidadorHorarioAntecedencia validadorHorarioAntecedencia;
 
     @Test
-    @DisplayName("Deve ser válido caso o horário de antecedência seja superior a 30 minutos")
+    @DisplayName("Deve ser válido, pois o horário de antecedência é superior a 30 minutos")
     void validarCenario1() {
         var dados = new DadosAgendamentoConsulta(1l,1l,LocalDateTime.now().plusMinutes(35), Especialidade.CARDIOLOGIA);
         validadorHorarioAntecedencia.validar(dados);
     }
 
     @Test
-    @DisplayName("Deve ser válido caso o horário de antecedência seja igual a 30 minutos")
+    @DisplayName("Deve ser válido, pois o horário de antecedência é igual a 30 minutos")
     void validarCenario2() {
         var dados = new DadosAgendamentoConsulta(1l,1l,LocalDateTime.now().plusMinutes(30), Especialidade.CARDIOLOGIA);
         validadorHorarioAntecedencia.validar(dados);
     }
 
     @Test
-    @DisplayName("Deve lançar uma ValidacaoException caso o horário de antecedência seja inferior a 30 minutos")
+    @DisplayName("Deve lançar uma exception. pois o horário de antecedência é inferior a 30 minutos")
     void validarCenario3() {
         var dados = new DadosAgendamentoConsulta(1l,1l,LocalDateTime.now().plusMinutes(25), Especialidade.CARDIOLOGIA);
         assertThrows(ValidacaoException.class, () -> validadorHorarioAntecedencia.validar(dados));

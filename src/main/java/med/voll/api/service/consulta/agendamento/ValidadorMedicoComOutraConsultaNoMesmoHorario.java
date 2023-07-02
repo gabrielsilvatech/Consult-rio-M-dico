@@ -12,6 +12,10 @@ public class ValidadorMedicoComOutraConsultaNoMesmoHorario implements ValidadorA
     @Autowired
     private ConsultaRepository repository;
 
+    public ValidadorMedicoComOutraConsultaNoMesmoHorario(ConsultaRepository repository) {
+        this.repository = repository;
+    }
+
     public void validar(DadosAgendamentoConsulta dados){
         var medicoPossuiOutraConsultaNoMesmoHorario = repository.existsByMedicoIdAndDataAndMotivoCancelamentoIsNull(dados.idMedico(), dados.data());
         if(medicoPossuiOutraConsultaNoMesmoHorario) {

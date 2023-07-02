@@ -30,12 +30,12 @@ public class AgendaService {
 
     public DadosDetalhamentoConsulta agendar (DadosAgendamentoConsulta dados) {
 
-        if (!pacienteRepository.existsById(dados.idPaciente())) {
-            throw new ValidacaoException("Id do paciente informado não existe!");
-        }
-
         if(dados.idMedico() != null && !medicoRepository.existsById(dados.idMedico())) {
             throw new ValidacaoException("Id do médico informado não existe");
+        }
+
+        if (!pacienteRepository.existsById(dados.idPaciente())) {
+            throw new ValidacaoException("Id do paciente informado não existe!");
         }
 
         validadores.forEach(v -> v.validar(dados));
@@ -57,7 +57,7 @@ public class AgendaService {
         }
 
         if(dados.especialidade() == null) {
-            throw new ValidacaoException("Especialidade é obrigatoria quando médico não selecionado");
+            throw new ValidacaoException("Especialidade é obrigatoria quando médico não for selecionado");
         }
 
         return medicoRepository.escolherMedicoAleatorioLivreNaData(dados.especialidade(), dados.data());

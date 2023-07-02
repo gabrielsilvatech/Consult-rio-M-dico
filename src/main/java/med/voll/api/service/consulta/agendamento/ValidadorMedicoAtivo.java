@@ -12,6 +12,10 @@ public class ValidadorMedicoAtivo implements ValidadorAgendamentoDeConsulta {
     @Autowired
     private MedicoRepository repository;
 
+    public ValidadorMedicoAtivo(MedicoRepository repository) {
+        this.repository = repository;
+    }
+
     public void validar (DadosAgendamentoConsulta dados) {
 
         if(!repository.findAtivoById(dados.idMedico())) {
