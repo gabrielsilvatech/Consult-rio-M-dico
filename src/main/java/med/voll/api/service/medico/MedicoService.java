@@ -13,9 +13,11 @@ public class MedicoService {
     @Autowired
     private MedicoRepository medicoRepository;
 
-    public void serviceAtualizarMedico(DadosAtualizacaoMedico dados) {
-        var medico = medicoRepository.getReferenceById(dados.id());
+    public MedicoService(MedicoRepository medicoRepository) {
+        this.medicoRepository = medicoRepository;
+    }
 
+    public void serviceAtualizarMedico(DadosAtualizacaoMedico dados) {
         if(!medicoRepository.existsById(dados.id())){
             throw new ValidacaoException("Médico não existe");
         }
@@ -24,10 +26,14 @@ public class MedicoService {
             throw new ValidacaoException("Necessário preencher ao menos um dado para atualizar");
         }
 
-        medico.atualizarInformações(dados);
+        medicoRepository.getReferenceById(dados.id()).atualizarInformações(dados);
     }
 
     public void serviceExcluirMedico(Medico medico) {
+        if(!medicoRepository.existsById(medico.getId())){
+            throw new ValidacaoException("Médico não existe");
+        }
+
         if(!medicoRepository.findAtivoById(medico.getId())) {
             throw  new ValidacaoException("Medico já está Inativo");
         }
@@ -35,6 +41,10 @@ public class MedicoService {
     }
 
     public void serviceAtivarMedico(Medico medico) {
+        if(!medicoRepository.existsById(medico.getId())){
+            throw new ValidacaoException("Médico não existe");
+        }
+
         if (medicoRepository.findAtivoById(medico.getId())){
             throw new ValidacaoException("Médico já está ativo");
         }
@@ -42,12 +52,13 @@ public class MedicoService {
     }
 
     public void serviceDetalharMedico(Medico medico) {
+        if(!medicoRepository.existsById(medico.getId())){
+            throw new ValidacaoException("Médico não existe");
+        }
+
         if(!medicoRepository.findAtivoById(medico.getId())) {
             throw new ValidacaoException("Medico está Inativo");
         }
     }
 
-    public void serviceCadastrarMedico(Medico medico) {
-        medicoRepository.save(medico);
-    }
 }
