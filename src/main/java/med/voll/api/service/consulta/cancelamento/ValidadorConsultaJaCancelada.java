@@ -12,6 +12,10 @@ public class ValidadorConsultaJaCancelada implements ValidadorCancelamentoDeCons
     @Autowired
     private ConsultaRepository repository;
 
+    public ValidadorConsultaJaCancelada(ConsultaRepository repository) {
+        this.repository = repository;
+    }
+
     public void validar(DadosCancelamentoConsulta dados) {
         var consulta = repository.getReferenceById(dados.idConsulta());
 

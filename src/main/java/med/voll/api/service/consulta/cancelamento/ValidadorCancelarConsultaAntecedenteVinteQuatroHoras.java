@@ -15,6 +15,10 @@ public class ValidadorCancelarConsultaAntecedenteVinteQuatroHoras implements Val
     @Autowired
     private ConsultaRepository repository;
 
+    public ValidadorCancelarConsultaAntecedenteVinteQuatroHoras(ConsultaRepository repository) {
+        this.repository = repository;
+    }
+
     public void validar(DadosCancelamentoConsulta dados) {
         var consulta = repository.getReferenceById(dados.idConsulta());
         var agora = LocalDateTime.now();
