@@ -30,7 +30,7 @@ public class PacienteController {
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPaciente dados, UriComponentsBuilder uriBuilder){
         var paciente = new Paciente(dados);
-        pacienteService.serviceCadastrarPaciente(paciente);
+        repository.save(paciente);
         var uri = uriBuilder.path("/pacientes/{id}").buildAndExpand(paciente.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosDetalhamentoPaciente(paciente));
     }
@@ -46,6 +46,7 @@ public class PacienteController {
     public ResponseEntity atualizar (@RequestBody @Valid DadosAtualizacaoPaciente dados) {
         var paciente = repository.getReferenceById(dados.id());
         pacienteService.serviceAtualizarPaciente(dados);
+        paciente.atualizarInformacoes(dados);
         return ResponseEntity.ok(new DadosDetalhamentoPaciente(paciente));
     }
 

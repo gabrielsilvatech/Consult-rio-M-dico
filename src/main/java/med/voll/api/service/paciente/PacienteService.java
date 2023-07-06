@@ -12,21 +12,26 @@ public class PacienteService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
-    public void serviceAtualizarPaciente(DadosAtualizacaoPaciente dados) {
-        var paciente = pacienteRepository.getReferenceById(dados.id());
+    public PacienteService(PacienteRepository pacienteRepository) {
+        this.pacienteRepository = pacienteRepository;
+    }
 
+    public void serviceAtualizarPaciente(DadosAtualizacaoPaciente dados) {
         if(!pacienteRepository.existsById(dados.id())) {
-            throw new ValidacaoException("Pacient não existe");
+            throw new ValidacaoException("Paciente não existe");
         }
 
         if(dados.nome() == null && dados.endereco() == null && dados.telefone() == null) {
             throw new ValidacaoException("Necessário preencher ao menos um dado para atualizar");
         }
 
-        paciente.atualizarInformacoes(dados);
     }
 
     public void serviceExcluirPaciente(Paciente paciente) {
+        if(!pacienteRepository.existsById(paciente.getId())) {
+            throw new ValidacaoException("Paciente não existe");
+        }
+
         if(!pacienteRepository.findAtivoById(paciente.getId())) {
             throw new ValidacaoException("Paciente já está Inativo");
         }
@@ -34,6 +39,10 @@ public class PacienteService {
     }
 
     public void serviceAtivarPaciente(Paciente paciente) {
+        if(!pacienteRepository.existsById(paciente.getId())) {
+            throw new ValidacaoException("Paciente não existe");
+        }
+
         if(pacienteRepository.findAtivoById(paciente.getId())) {
             throw new ValidacaoException("Paciente já está Ativo");
         }
@@ -41,13 +50,13 @@ public class PacienteService {
     }
 
     public void serviceDetalharPaciente(Paciente paciente) {
+        if(!pacienteRepository.existsById(paciente.getId())) {
+            throw new ValidacaoException("Paciente não existe");
+        }
+
         if (!pacienteRepository.findAtivoById(paciente.getId())) {
             throw new ValidacaoException("Paciente está Inativo");
         }
-    }
-
-    public void serviceCadastrarPaciente(Paciente paciente) {
-        pacienteRepository.save(paciente);
     }
 
 }
