@@ -16,7 +16,6 @@ import java.util.Date;
 @Service
 public class TokenService {
 
-
     @Value("${api.security.token.secret}")
     private String secret;
 

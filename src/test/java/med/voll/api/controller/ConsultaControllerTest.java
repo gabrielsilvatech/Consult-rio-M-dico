@@ -77,6 +77,7 @@ class ConsultaControllerTest {
         var jsonEsperado = dadosDetalhamentoConsultaJson.write(dadosDetalhamento).getJson();
 
         assertThat(response.getContentAsString()).isEqualTo(jsonEsperado);
+
     }
 
     @Test
